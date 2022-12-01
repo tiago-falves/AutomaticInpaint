@@ -21,7 +21,8 @@ def process_batch(p, input_dir, output_dir, args):
 
     images = shared.listfiles(input_dir)
 
-    print(f"Will process {len(images)} images, creating {p.n_iter * p.batch_size} new images for each.")
+    print(
+        f"Will process {len(images)} images, creating {p.n_iter * p.batch_size} new images for each.")
 
     save_normally = output_dir == ''
 
@@ -40,7 +41,7 @@ def process_batch(p, input_dir, output_dir, args):
 
         img = Image.open(image)
         # Use the EXIF orientation of photos taken by smartphones.
-        img = ImageOps.exif_transpose(img) 
+        img = ImageOps.exif_transpose(img)
         p.init_images = [img] * p.batch_size
 
         proc = modules.scripts.scripts_img2img.run(p, *args)
@@ -63,13 +64,17 @@ def img2img(mode: int, prompt: str, negative_prompt: str, prompt_style: str, pro
     is_inpaint = mode == 1
     is_batch = mode == 2
 
+    print(locals())
+
     if is_inpaint:
         # Drawn mask
         if mask_mode == 0:
             image = init_img_with_mask['image']
             mask = init_img_with_mask['mask']
-            alpha_mask = ImageOps.invert(image.split()[-1]).convert('L').point(lambda x: 255 if x > 0 else 0, mode='1')
-            mask = ImageChops.lighter(alpha_mask, mask.convert('L')).convert('L')
+            alpha_mask = ImageOps.invert(
+                image.split()[-1]).convert('L').point(lambda x: 255 if x > 0 else 0, mode='1')
+            mask = ImageChops.lighter(
+                alpha_mask, mask.convert('L')).convert('L')
             image = image.convert('RGB')
         # Uploaded mask
         else:
@@ -82,9 +87,10 @@ def img2img(mode: int, prompt: str, negative_prompt: str, prompt_style: str, pro
 
     # Use the EXIF orientation of photos taken by smartphones.
     if image is not None:
-        image = ImageOps.exif_transpose(image) 
+        image = ImageOps.exif_transpose(image)
 
     assert 0. <= denoising_strength <= 1., 'can only work with strength in [0.0, 1.0]'
+    
 
     p = StableDiffusionProcessingImg2Img(
         sd_model=shared.sd_model,
@@ -130,7 +136,8 @@ def img2img(mode: int, prompt: str, negative_prompt: str, prompt_style: str, pro
     if is_batch:
         assert not shared.cmd_opts.hide_ui_dir_config, "Launched with --hide-ui-dir-config, batch img2img disabled"
 
-        process_batch(p, img2img_batch_input_dir, img2img_batch_output_dir, args)
+        process_batch(p, img2img_batch_input_dir,
+                      img2img_batch_output_dir, args)
 
         processed = Processed(p, [], p.seed, "")
     else:
