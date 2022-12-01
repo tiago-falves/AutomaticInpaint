@@ -161,11 +161,24 @@ def img2img(mode: int, prompt: str, negative_prompt: str, prompt_style: str, pro
     # return processed.images, generation_info_js, plaintext_to_html(processed.info)
 
 
-def save_images(images, output_dir):
+def save_images(images, img_path, save_in_input_dir, cell_type_abv):
     '''Saves images for the same batch, appending "_b" and index to the filename.'''
 
+    if(save_in_input_dir):
+        img_path = os.path.splitext(img_path)[0]
+    else:
+        # Create output directory
+        output_dir = os.path.join('outputs', 'inpainted')
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Creates output directory without extension
+        img_path = os.path.join(output_dir, os.path.split(img_path)[1])
+        img_path = os.path.splitext(img_path)[0]
+
     for inpainted_img_idx in range(len(images)):
-        filename = output_dir + '_b' + str(inpainted_img_idx) + '.png'
+        filename = '{img_path}_{cell_type_abv}{inpainted_img_idx}.png'
+        filename = img_path + '_' + cell_type_abv + \
+            str(inpainted_img_idx) + '.png'
         images[inpainted_img_idx].save(filename)
 
 
@@ -238,11 +251,17 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     return images
 
 
-def inpaint_multiple(prompt):
+def prompt_creator(cell_type):
+    prompt = '@{cell_type} cell'
+    return prompt
 
-    # Create output directory
-    output_dir = os.path.join('outputs', 'inpainted')
-    os.makedirs(output_dir, exist_ok=True)
+
+def inpaint_multiple(cell_type_abvs):
+    '''
+    Given a cell type abbreviation, this function will inpaint all images in the folder 
+    Will create one inpainted image, per cell type abbreviation, per image in the folder
+    '''
+
     input_dir = 'indir'
 
     # Parse images and masks
@@ -250,25 +269,33 @@ def inpaint_multiple(prompt):
     images = [x.replace("_mask.jpeg", ".jpeg") for x in masks]
     print(f"Found {len(masks)} inputs.")
 
+    # Iterate through images and inpaint
+    for image_path, mask in zip(images, masks):
+        print(f"Processing {image_path} and {mask}")
+
+        # Create inpainted image, for each cell type for each image
+        for cell_type_abv in cell_type_abvs:
+
+            # Create inpainting images
+            prompt = prompt_creator(cell_type_abv)
+            images = call_inpainting_params(
+                prompt, image_path, mask)
+
+            # Saving for one batch different images
+            save_images(images=images, img_path=image_path,
+                        save_in_input_dir=False, cell_type_abv=cell_type_abv)
+
+
+def inpaint():
+    '''Inpaints all images in the input folder'''
+
     # Load model
     model_name = 'multiCell.ckpt'
     my_load_model(model_name)
 
-    for image, mask in zip(images, masks):
-        print(f"Processing {image} and {mask}")
-
-        # Isto cria um output/20.jpeg
-        outpath = os.path.join(output_dir, os.path.split(image)[1])
-
-        # Split path from file extension
-        outpath = os.path.splitext(outpath)[0]
-
-        # Create inpainting images
-        images = call_inpainting_params(
-            prompt, image, mask)
-
-        # Saving for one image different batches
-        save_images(images, outpath)
+    # Correct order of cell types
+    cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
+    inpaint_multiple(cell_type_abvs)
 
 
-inpaint_multiple('@crm cell')
+inpaint()
