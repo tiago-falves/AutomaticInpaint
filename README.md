@@ -5,6 +5,18 @@ A browser interface based on Gradio library for Stable Diffusion.
 
 Check the [custom scripts](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Custom-Scripts) wiki page for extra scripts developed by users.
 
+## How to install
+
+conda env create --file environment-wsl2.yaml
+conda activate automatic
+pip install -r requirements.txt 
+pip install git+https://github.com/crowsonkb/k-diffusion/
+pip install open_clip_torch
+
+Insert the model we want in the models/Stable-diffusion/ folder
+Change in the img2img.py script the name of the model
+
+
 ## Features
 [Detailed feature showcase with images](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features):
 - Original txt2img and img2img modes

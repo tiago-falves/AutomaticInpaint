@@ -179,7 +179,7 @@ def my_load_model(model_name):
     model_path = os.path.join(model_path, model_name)
     checkpoint_path = os.path.abspath('v1-inference.yaml')
     checkpoint_info = CheckpointInfo(
-        filename=model_path, title='multiCell.ckpt [6227a08c]', hash='6227a08c', model_name='multiCell', config=checkpoint_path)
+        filename=model_path, title='{model_name} [6227a08c]', hash='6227a08c', model_name='{model_name}', config=checkpoint_path)
 
     sd_models.load_model(checkpoint_info)
 
@@ -244,6 +244,7 @@ def inpaint_multiple(prompt):
     output_dir = os.path.join('outputs', 'inpainted')
     os.makedirs(output_dir, exist_ok=True)
     input_dir = 'indir'
+    input_dir = os.path.join(input_dir,'640_masks')
 
     # Parse images and masks
     masks = sorted(glob.glob(os.path.join(input_dir, "*_mask.jpeg")))
@@ -251,7 +252,7 @@ def inpaint_multiple(prompt):
     print(f"Found {len(masks)} inputs.")
 
     # Load model
-    model_name = 'multiCell.ckpt'
+    model_name = '10000MultiCellAllSampRegPerson.ckpt'
     my_load_model(model_name)
 
     for image, mask in zip(images, masks):
