@@ -256,14 +256,13 @@ def prompt_creator(cell_type):
     return prompt
 
 
-def inpaint_multiple(cell_type_abvs):
+def inpaint_multiple(cell_type_abvs, input_folder):
     '''
     Given a cell type abbreviation, this function will inpaint all images in the folder 
     Will create one inpainted image, per cell type abbreviation, per image in the folder
     '''
 
-    input_dir = 'indir'
-    input_dir = os.path.join(input_dir,'640_masks')
+    input_dir = os.path.join('indir',input_folder)
 
     # Parse images and masks
     masks = sorted(glob.glob(os.path.join(input_dir, "*_mask.jpeg")))
@@ -294,9 +293,12 @@ def inpaint():
     model_name = '10000MultiCellAllSampRegPerson.ckpt'
     my_load_model(model_name)
 
+    # Input folder
+    input_folder = 'first_20_masks'
+
     # Correct order of cell types
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
-    inpaint_multiple(cell_type_abvs)
+    inpaint_multiple(cell_type_abvs,input_folder)
 
 
 inpaint()
