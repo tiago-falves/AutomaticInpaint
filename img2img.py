@@ -173,7 +173,8 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
 
         # Creates output directory without extension
         img_path = os.path.join(output_dir, os.path.split(img_path)[1])
-        img_path = os.path.splitext(img_path)[0]
+        splitted_path = os.path.splitext(img_path)
+        img_path = splitted_path[0]
 
     for inpainted_img_idx in range(len(images)):
         filename = '{img_path}_{cell_type_abv}{inpainted_img_idx}.png'
@@ -262,7 +263,7 @@ def inpaint_multiple(cell_type_abvs, input_folder):
     Will create one inpainted image, per cell type abbreviation, per image in the folder
     '''
 
-    input_dir = os.path.join('indir',input_folder)
+    input_dir = os.path.join('indir', input_folder)
 
     # Parse images and masks
     masks = sorted(glob.glob(os.path.join(input_dir, "*_mask.jpeg")))
@@ -298,7 +299,7 @@ def inpaint():
 
     # Correct order of cell types
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
-    inpaint_multiple(cell_type_abvs,input_folder)
+    inpaint_multiple(cell_type_abvs, input_folder)
 
 
 inpaint()
