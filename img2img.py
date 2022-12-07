@@ -291,7 +291,9 @@ def inpaint():
     '''Inpaints all images in the input folder'''
 
     # Load model
-    model_name = '10000MultiCellAllSampRegPerson.ckpt'
+    # model_name = '10000MultiCellAllSampRegPerson.ckpt'
+    model_name = '10000MultiCellPersonsHandPick.ckpt'
+
     my_load_model(model_name)
 
     # Input folder

@@ -14,6 +14,31 @@ def collage():
             edit_image(img_name, imgs_path)
 
 
+def add_text(I1):
+    # Custom font style and font size
+    # Custom font style and font size
+    myFont = ImageFont.truetype('C:\WINDOWS\FONTS\ARIAL.TTF', 65)
+
+    #1, 50, 32
+    # 255, 0, 0
+    # Add Text to an image
+    # I1.text((250, 0), "Original", font=myFont, fill=(1, 50, 32))
+    # I1.text((750, 0), "Mask", font=myFont, fill=(255, 255, 255))
+    # I1.text((250, 500), "ASCUS", font=myFont, fill=(1, 50, 32))
+    # I1.text((750, 500), "ASCH", font=myFont, fill=(1, 50, 32))
+    # I1.text((250, 1000), "LSIL", font=myFont, fill=(1, 50, 32))
+    # I1.text((750, 1000), "HSIL", font=myFont, fill=(1, 50, 32))
+    # I1.text((250, 1500), "CRNM", font=myFont, fill=(1, 50, 32))
+
+    I1.text((10, 0), "Original", font=myFont, fill=(255, 0, 0))
+    I1.text((510, 0), "Mask", font=myFont, fill=(255, 0, 0))
+    I1.text((10, 500), "ASC-US", font=myFont, fill=(255, 0, 0))
+    I1.text((510, 500), "ASC H", font=myFont, fill=(255, 0, 0))
+    I1.text((10, 1000), "LSIL", font=myFont, fill=(255, 0, 0))
+    I1.text((510, 1000), "HSIL", font=myFont, fill=(255, 0, 0))
+    I1.text((10, 1500), "CRNM", font=myFont, fill=(255, 0, 0))
+
+
 def edit_image(img_name, imgs_path):
     new = Image.new("RGBA", (1000, 2000))
 
@@ -46,6 +71,12 @@ def edit_image(img_name, imgs_path):
 
     img = Image.open(original_img_path)
     img = img.resize((500, 500))
+    mask_cell = mask_cell.resize((500, 500))
+    ascus_cell = ascus_cell.resize((500, 500))
+    asch_cell = asch_cell.resize((500, 500))
+    lsil_cell = lsil_cell.resize((500, 500))
+    hsil_cell = hsil_cell.resize((500, 500))
+    crnm_cell = crnm_cell.resize((500, 500))
 
     new.paste(img, (0, 0))
     new.paste(mask_cell, (500, 0))
@@ -58,18 +89,7 @@ def edit_image(img_name, imgs_path):
     # Call draw Method to add 2D graphics in an image
     I1 = ImageDraw.Draw(new)
 
-    # Custom font style and font size
-    # Custom font style and font size
-    myFont = ImageFont.truetype('C:\WINDOWS\FONTS\ARIAL.TTF', 65)
-
-    # Add Text to an image
-    I1.text((0, 0), "Original", font=myFont, fill=(255, 0, 0))
-    I1.text((500, 0), "Mask", font=myFont, fill=(255, 0, 0))
-    I1.text((0, 500), "ASCUS", font=myFont, fill=(255, 0, 0))
-    I1.text((500, 500), "ASCH", font=myFont, fill=(255, 0, 0))
-    I1.text((0, 1000), "LSIL", font=myFont, fill=(255, 0, 0))
-    I1.text((500, 1000), "HSIL", font=myFont, fill=(255, 0, 0))
-    I1.text((0, 1500), "CRNM", font=myFont, fill=(255, 0, 0))
+    add_text(I1)
 
     # Create folder inpaintedGrid if it doesn't exist in outputs directory
     output_dir = os.path.join('outputs', 'inpaintedGrid')
@@ -79,5 +99,6 @@ def edit_image(img_name, imgs_path):
     new.save(os.path.join(output_dir, img_name + '_inpaintedGrid' + img_ext))
 
 
-# edit_image(img_name='20191024144035191_4.jpeg')
+# edit_image(img_name='20191024144035191_4.jpeg',
+    #    imgs_path='indir/first_20_masks/')
 collage()

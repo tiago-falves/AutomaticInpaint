@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=automatic_inpaint_10000AllCellPerson_first_20_masks
+#SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_first_20_masks
 #SBATCH --output=output.log
 #SBATCH --mem=64G
 #SBATCH --time=01:00:00
