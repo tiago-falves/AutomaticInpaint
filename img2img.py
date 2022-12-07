@@ -253,7 +253,8 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
 
 
 def prompt_creator(cell_type):
-    prompt = '@{cell_type} cell'
+
+    prompt = '@' + cell_type + ' cell'
     return prompt
 
 
@@ -279,6 +280,7 @@ def inpaint_multiple(cell_type_abvs, input_folder):
 
             # Create inpainting images
             prompt = prompt_creator(cell_type_abv)
+
             images = call_inpainting_params(
                 prompt, image_path, mask)
 
