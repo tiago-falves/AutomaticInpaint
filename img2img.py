@@ -292,7 +292,7 @@ def inpaint():
 
     # Load model
     # model_name = '10000MultiCellAllSampRegPerson.ckpt'
-    model_name = '10000MultiCellPersonsHandPick.ckpt'
+    model_name = '10000MultiCellAllTypesHandPick.ckpt'
 
     my_load_model(model_name)
 
