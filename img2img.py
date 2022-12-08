@@ -168,7 +168,9 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
         img_path = os.path.splitext(img_path)[0]
     else:
         # Create output directory
-        output_dir = os.path.join('outputs', 'inpainted')
+        temp_output_dir = os.path.join('outputs', 'full_resTrue')
+        output_dir = os.path.join(temp_output_dir, 'inpainted')
+        # output_dir = os.path.join('outputs', 'inpainted')
         os.makedirs(output_dir, exist_ok=True)
 
         # Creates output directory without extension
