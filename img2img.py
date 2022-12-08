@@ -168,7 +168,7 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
         img_path = os.path.splitext(img_path)[0]
     else:
         # Create output directory
-        temp_output_dir = os.path.join('outputs', '50Steps')
+        temp_output_dir = os.path.join('outputs', 'den05')
         output_dir = os.path.join(temp_output_dir, 'inpainted')
         # output_dir = os.path.join('outputs', 'inpainted')
         os.makedirs(output_dir, exist_ok=True)
@@ -213,7 +213,7 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     init_img_inpaint = Image.open(img_name)
     init_mask_inpaint = Image.open(img_mask_name)
     mask_mode = 1
-    steps = 50
+    steps = 100
     sampler_index = 0
     mask_blur = 4
     inpainting_fill = 1
@@ -222,7 +222,7 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     n_iter = 1
     batch_size = 1
     cfg_scale = 7
-    denoising_strength = 0.9
+    denoising_strength = 0.5
     seed = -1.0
     subseed = -1.0
     subseed_strength = 0
