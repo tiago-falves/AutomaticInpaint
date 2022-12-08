@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_first_20_masks_cfg20
-#SBATCH --output=output_cfg20.log
+#SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_first_20_masks_denoise09
+#SBATCH --output=output_den.log
 #SBATCH --mem=64G
 #SBATCH --time=01:00:00
 #SBATCH --cpus-per-task=24
