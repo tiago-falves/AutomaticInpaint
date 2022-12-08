@@ -168,7 +168,7 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
         img_path = os.path.splitext(img_path)[0]
     else:
         # Create output directory
-        temp_output_dir = os.path.join('outputs', 'denoise90')
+        temp_output_dir = os.path.join('outputs', '640')
         output_dir = os.path.join(temp_output_dir, 'inpainted')
         # output_dir = os.path.join('outputs', 'inpainted')
         os.makedirs(output_dir, exist_ok=True)
@@ -229,10 +229,10 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     seed_resize_from_h = 0
     seed_resize_from_w = 0
     seed_enable_extras = False
-    height = 512
-    width = 512
+    height = 640
+    width = 640
     resize_mode = 0
-    inpaint_full_res = False
+    inpaint_full_res = True
     inpaint_full_res_padding = 32
     inpainting_mask_invert = 0
     img2img_batch_input_dir = ''
