@@ -41,7 +41,7 @@ def add_text(I1):
 
 def edit_image(img_name, imgs_path):
     new = Image.new("RGBA", (1000, 2000))
-    temp_dir = 'den05'
+    temp_dir = 'CFG4'
 
     temp_out_dir = os.path.join('outputs', temp_dir)
     output_dir = os.path.join(temp_out_dir, 'inpainted')
