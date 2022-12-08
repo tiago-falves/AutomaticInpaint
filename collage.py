@@ -42,7 +42,8 @@ def add_text(I1):
 def edit_image(img_name, imgs_path):
     new = Image.new("RGBA", (1000, 2000))
 
-    output_dir = os.path.join('outputs', 'inpainted')
+    temp_out_dir = os.path.join('outputs', 'full_resTrue')
+    output_dir = os.path.join(temp_out_dir, 'inpainted')
     os.makedirs(output_dir, exist_ok=True)
 
     original_img_path = os.path.join(imgs_path, img_name)
@@ -92,7 +93,8 @@ def edit_image(img_name, imgs_path):
     add_text(I1)
 
     # Create folder inpaintedGrid if it doesn't exist in outputs directory
-    output_dir = os.path.join('outputs', 'inpaintedGrid')
+    temp_out_dir = os.path.join('outputs', 'full_resTrue')
+    output_dir = os.path.join(temp_out_dir, 'inpaintedGrid')
     os.makedirs(output_dir, exist_ok=True)
 
     # Save the image
