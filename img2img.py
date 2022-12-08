@@ -198,6 +198,8 @@ def my_load_model(model_name):
     sd_models.load_model(checkpoint_info)
 
 
+# Variar a:
+# Denoising strength, steps, mask blur, cfg scale
 def call_inpainting_params(prompt, img_name, img_mask_name):
     mode = 1
     prompt = prompt
@@ -209,7 +211,7 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     init_img_inpaint = Image.open(img_name)
     init_mask_inpaint = Image.open(img_mask_name)
     mask_mode = 1
-    steps = 20
+    steps = 100
     sampler_index = 0
     mask_blur = 4
     inpainting_fill = 1
