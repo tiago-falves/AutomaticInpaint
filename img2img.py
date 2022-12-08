@@ -168,7 +168,7 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
         img_path = os.path.splitext(img_path)[0]
     else:
         # Create output directory
-        temp_output_dir = os.path.join('outputs', 'CFG4')
+        temp_output_dir = os.path.join('outputs', 'CFG10')
         output_dir = os.path.join(temp_output_dir, 'inpainted')
         # output_dir = os.path.join('outputs', 'inpainted')
         os.makedirs(output_dir, exist_ok=True)
@@ -221,7 +221,7 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     tiling = False
     n_iter = 1
     batch_size = 1
-    cfg_scale = 4
+    cfg_scale = 10
     denoising_strength = 0.75
     seed = -1.0
     subseed = -1.0
