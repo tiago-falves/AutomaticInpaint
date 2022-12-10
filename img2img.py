@@ -221,7 +221,7 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     tiling = False
     n_iter = 1
     batch_size = 1
-    cfg_scale = 7
+    cfg_scale = 4
     denoising_strength = 0.75
     seed = -1.0
     subseed = -1.0
@@ -303,7 +303,7 @@ def inpaint():
     my_load_model(model_name)
 
     # Input folder
-    input_folder = 'first_20_masks'
+    input_folder = 'Diverse20Masks'
 
     # Correct order of cell types
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']

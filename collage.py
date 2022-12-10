@@ -6,7 +6,8 @@ import os
 
 # Iterate through all the images in the directory
 def collage():
-    imgs_path = 'indir/first_20_masks/'
+    # imgs_path = 'indir/first_20_masks/'
+    imgs_path = 'indir/1mask/'
     for img_name in os.listdir(imgs_path):
 
         # If it has mask in the name, skip it
@@ -22,28 +23,30 @@ def add_text(I1):
     #1, 50, 32
     # 255, 0, 0
     # Add Text to an image
-    # I1.text((250, 0), "Original", font=myFont, fill=(1, 50, 32))
-    # I1.text((750, 0), "Mask", font=myFont, fill=(255, 255, 255))
-    # I1.text((250, 500), "ASCUS", font=myFont, fill=(1, 50, 32))
-    # I1.text((750, 500), "ASCH", font=myFont, fill=(1, 50, 32))
-    # I1.text((250, 1000), "LSIL", font=myFont, fill=(1, 50, 32))
-    # I1.text((750, 1000), "HSIL", font=myFont, fill=(1, 50, 32))
-    # I1.text((250, 1500), "CRNM", font=myFont, fill=(1, 50, 32))
+    I1.text((250, 0), "Original", font=myFont, fill=(1, 50, 32))
+    I1.text((750, 0), "Mask", font=myFont, fill=(255, 255, 255))
+    I1.text((250, 500), "ASCUS", font=myFont, fill=(1, 50, 32))
+    I1.text((750, 500), "ASCH", font=myFont, fill=(1, 50, 32))
+    I1.text((250, 1000), "LSIL", font=myFont, fill=(1, 50, 32))
+    I1.text((750, 1000), "HSIL", font=myFont, fill=(1, 50, 32))
+    I1.text((250, 1500), "CRNM", font=myFont, fill=(1, 50, 32))
 
-    I1.text((10, 0), "Original", font=myFont, fill=(255, 0, 0))
-    I1.text((510, 0), "Mask", font=myFont, fill=(255, 0, 0))
-    I1.text((10, 500), "ASC-US", font=myFont, fill=(255, 0, 0))
-    I1.text((510, 500), "ASC H", font=myFont, fill=(255, 0, 0))
-    I1.text((10, 1000), "LSIL", font=myFont, fill=(255, 0, 0))
-    I1.text((510, 1000), "HSIL", font=myFont, fill=(255, 0, 0))
-    I1.text((10, 1500), "CRNM", font=myFont, fill=(255, 0, 0))
+    # I1.text((10, 0), "Original", font=myFont, fill=(255, 0, 0))
+    # I1.text((510, 0), "Mask", font=myFont, fill=(255, 0, 0))
+    # I1.text((10, 500), "ASC-US", font=myFont, fill=(255, 0, 0))
+    # I1.text((510, 500), "ASC H", font=myFont, fill=(255, 0, 0))
+    # I1.text((10, 1000), "LSIL", font=myFont, fill=(255, 0, 0))
+    # I1.text((510, 1000), "HSIL", font=myFont, fill=(255, 0, 0))
+    # I1.text((10, 1500), "CRNM", font=myFont, fill=(255, 0, 0))
 
 
 def edit_image(img_name, imgs_path):
     new = Image.new("RGBA", (1000, 2000))
-    temp_dir = '640'
+    temp_dir = ''
+    temp_out_dir = 'outputs'
 
-    temp_out_dir = os.path.join('outputs', temp_dir)
+    if temp_dir != '':
+        temp_out_dir = os.path.join(temp_out_dir, temp_dir)
     output_dir = os.path.join(temp_out_dir, 'inpainted')
     os.makedirs(output_dir, exist_ok=True)
 
@@ -94,7 +97,8 @@ def edit_image(img_name, imgs_path):
     add_text(I1)
 
     # Create folder inpaintedGrid if it doesn't exist in outputs directory
-    temp_out_dir = os.path.join('outputs', temp_dir)
+    if temp_dir != '':
+        temp_out_dir = os.path.join(temp_out_dir, temp_dir)
     output_dir = os.path.join(temp_out_dir, 'inpaintedGrid')
     os.makedirs(output_dir, exist_ok=True)
 
