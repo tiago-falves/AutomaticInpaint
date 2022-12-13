@@ -3,9 +3,9 @@
 #SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_all640_CFG4
 #SBATCH --output=output_CFG4_All.log
 #SBATCH --mem=64G
-#SBATCH --time=01:00:00
+#SBATCH --time=3-10:00:00
 #SBATCH --cpus-per-task=24
-#SBATCH --gpus=1
+#SBATCH --gpus=2
 #SBATCH --mail-user=tiago.alves@aicos.fraunhofer.pt
 #SBATCH --mail-type=ALL
 
