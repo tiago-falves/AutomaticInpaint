@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_first_20_masks_fullRes_640_dif75_CFG4_Diverse
-#SBATCH --output=output_CFG4_Diverse.log
+#SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_all640_CFG4
+#SBATCH --output=output_CFG4_All.log
 #SBATCH --mem=64G
 #SBATCH --time=01:00:00
 #SBATCH --cpus-per-task=24

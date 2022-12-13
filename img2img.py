@@ -168,7 +168,7 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
         img_path = os.path.splitext(img_path)[0]
     else:
         # Create output directory
-        temp_output_dir = os.path.join('outputs', 'dif75')
+        temp_output_dir = os.path.join('outputs', '640All')
         output_dir = os.path.join(temp_output_dir, 'inpainted')
         # output_dir = os.path.join('outputs', 'inpainted')
         os.makedirs(output_dir, exist_ok=True)
@@ -303,7 +303,7 @@ def inpaint():
     my_load_model(model_name)
 
     # Input folder
-    input_folder = 'Diverse20Masks'
+    input_folder = '640_masks'
 
     # Correct order of cell types
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
