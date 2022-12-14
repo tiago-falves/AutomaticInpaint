@@ -5,7 +5,7 @@
 #SBATCH --mem=64G
 #SBATCH --time=23:59:00
 #SBATCH --cpus-per-task=24
-#SBATCH --gpus=2
+#SBATCH --gpus=1
 #SBATCH --mail-user=tiago.alves@aicos.fraunhofer.pt
 #SBATCH --mail-type=ALL
 
