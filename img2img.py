@@ -338,8 +338,8 @@ def parse_args():
                         help='Folder to save inpainted images, in the outputs directory')
     parser.add_argument('--prompt', type=str, default="",
                         help='Prompt to use for inpainting')
-    parser.add_argument('--control_mask_size', type=bool, default=False,
-                        help='If true, will use the mask size to control the size of the inpainted image')
+    # parser.add_argument('--control_mask_size', type=bool, default=False,
+    #                     help='If true, will use the mask size to control the size of the inpainted image')
     return parser.parse_args()
 
 
@@ -352,14 +352,14 @@ def test():
             control_mask_size=True)
 
 
-def main():
+def main(control_mask_size):
     args = parse_args()
     inpaint(model_name=args.model_name,
             input_folder=args.input_folder,
             output_dir=args.output_dir,
             prompt=args.prompt,
-            control_mask_size=args.control_mask_size)
+            control_mask_size=True)
 
 
-main()
+main(control_mask_size=True)
 # test()

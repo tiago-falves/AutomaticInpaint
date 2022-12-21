@@ -16,8 +16,7 @@ module load cuda11.2/toolkit/11.2.2
 conda activate automatic
 
 python img2img.py \
-    --model_name '2022-12-20T11-43-15_ASCUS_1_training_images_10000_max_training_steps_ASCUS_token_cell_class_word.ckpt' \
+    --model_name '10000MultiCellPersonHandPick.ckpt' \
     --input_folder "640_OneCell" \
-    --output_dir "640MasksResized" \
-    --prompt "ASCUS cell"
+    --output_dir "640MasksResized" 
 
