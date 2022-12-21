@@ -1,3 +1,4 @@
+import argparse
 import math
 import os
 import glob
@@ -161,14 +162,20 @@ def img2img(mode: int, prompt: str, negative_prompt: str, prompt_style: str, pro
     # return processed.images, generation_info_js, plaintext_to_html(processed.info)
 
 
-def save_images(images, img_path, save_in_input_dir, cell_type_abv):
+def build_filename(img_path, cell_type_abv, inpainted_img_idx):
+    filename = img_path + '_' + cell_type_abv + \
+        str(inpainted_img_idx) + '.png'
+    return filename
+
+
+def save_images(images, img_path, save_in_input_dir, cell_type_abv, output_dir):
     '''Saves images for the same batch, appending "_b" and index to the filename.'''
 
     if(save_in_input_dir):
         img_path = os.path.splitext(img_path)[0]
     else:
         # Create output directory
-        temp_output_dir = os.path.join('outputs', '640All')
+        temp_output_dir = os.path.join('outputs', output_dir)
         output_dir = os.path.join(temp_output_dir, 'inpainted')
         # output_dir = os.path.join('outputs', 'inpainted')
         os.makedirs(output_dir, exist_ok=True)
@@ -179,9 +186,8 @@ def save_images(images, img_path, save_in_input_dir, cell_type_abv):
         img_path = splitted_path[0]
 
     for inpainted_img_idx in range(len(images)):
-        filename = '{img_path}_{cell_type_abv}{inpainted_img_idx}.png'
-        filename = img_path + '_' + cell_type_abv + \
-            str(inpainted_img_idx) + '.png'
+        filename = build_filename(
+            img_path=img_path, cell_type_abv=cell_type_abv, inpainted_img_idx=inpainted_img_idx)
         images[inpainted_img_idx].save(filename)
 
 
@@ -229,21 +235,14 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     seed_resize_from_h = 0
     seed_resize_from_w = 0
     seed_enable_extras = False
-    height = 640
-    width = 640
+    height = 320
+    width = 320
     resize_mode = 0
     inpaint_full_res = True
     inpaint_full_res_padding = 32
     inpainting_mask_invert = 0
     img2img_batch_input_dir = ''
     img2img_batch_output_dir = ''
-
-    # img2img(mode=1,prompt='@crm cell',negative_prompt='',prompt_style=None,prompt_style2=None,init_img=None,init_img_with_mask=None,init_img_inpaint= init_img_inpaint ,init_mask_inpaint= init_mask_inpaint ,mask_mode=1,steps=20,sampler_index=0,mask_blur=4,inpainting_fill=1,restore_faces=False,tiling=False,n_iter=1,batch_size=1,cfg_scale=7,denoising_strength=0.75,seed=-1.0,subseed=-1.0,subseed_strength=0,seed_resize_from_h=0,seed_resize_from_w=0,seed_enable_extras=False,height=512,width=512,resize_mode=0,inpaint_full_res=False,inpaint_full_res_padding=32,inpainting_mask_invert=0,img2img_batch_input_dir='',img2img_batch_output_dir='',args=(0, '<ul>\n<li><code>CFG Scale</code> should be 2 or lower.</li>\n</ul>\n', True, True, '', '', True, 50, True, 1, 0, False, 4, 1,         '<p style="margin-bottom:0.75em">Recommended settings: Sampling Steps: 80-100, Sampler: Euler a, Denoising strength: 0.8</p>', 128, 8, ['left', 'right', 'up', 'down'], 1, 0.05, 128, 4, 0, ['left', 'right', 'up', 'down'], False, False, False, '', '<p style="margin-bottom:0.75em">Will upscale the image to twice the dimensions; use width and height sliders to set tile size</p>', 64, 0, 1, '', 0, '', True, True, False))
-    # img2img(1, '@crm cell',
-    #         '', None, None, None, None, init_img_inpaint, init_mask_inpaint, 1, 50, 0, 4, 1, False, False, 1, 1, 7, 0.75,
-    #         -1.0, -1.0, 0, 0, 0, False, 512, 512, 0, False, 32, 0, '', '',
-    #         0, '<ul>\n<li><code>CFG Scale</code> should be 2 or lower.</li>\n</ul>\n', True, True, '', '', True, 50, True, 1, 0, False, 4, 1,
-    #         '<p style="margin-bottom:0.75em">Recommended settings: Sampling Steps: 80-100, Sampler: Euler a, Denoising strength: 0.8</p>', 128, 8, ['left', 'right', 'up', 'down'], 1, 0.05, 128, 4, 0, ['left', 'right', 'up', 'down'], False, False, False, '', '<p style="margin-bottom:0.75em">Will upscale the image to twice the dimensions; use width and height sliders to set tile size</p>', 64, 0, 1, '', 0, '', True, True, False)
 
     images = img2img(mode, prompt, negative_prompt, prompt_style, prompt_style2, init_img,
                      init_img_with_mask, init_img_inpaint, init_mask_inpaint, mask_mode, steps,
@@ -262,9 +261,9 @@ def prompt_creator(cell_type):
     return prompt
 
 
-def inpaint_multiple(cell_type_abvs, input_folder):
+def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt):
     '''
-    Given a cell type abbreviation, this function will inpaint all images in the folder 
+    Given a cell type abbreviation, this function will inpaint all images in the folder
     Will create one inpainted image, per cell type abbreviation, per image in the folder
     '''
 
@@ -279,35 +278,61 @@ def inpaint_multiple(cell_type_abvs, input_folder):
     for image_path, mask in zip(images, masks):
         print(f"Processing {image_path} and {mask}")
 
+        # If prompt is empty, create prompt in "@cell_type cell" format
         # Create inpainted image, for each cell type for each image
-        for cell_type_abv in cell_type_abvs:
+        if prompt == "":
+            # Create inpainted image, for each cell type for each image
+            for cell_type_abv in cell_type_abvs:
 
-            # Create inpainting images
-            prompt = prompt_creator(cell_type_abv)
+                prompt = prompt_creator(cell_type_abv)
+                images = call_inpainting_params(
+                    prompt, image_path, mask)
 
-            images = call_inpainting_params(
-                prompt, image_path, mask)
+                # Saving for one batch different images
+                save_images(images=images, img_path=image_path,
+                            save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
+        else:
+            images = call_inpainting_params(prompt, image_path, mask)
+            # Separate prompt by spaces
+            cell_type_abv = prompt.split(" ")[0]
 
             # Saving for one batch different images
             save_images(images=images, img_path=image_path,
-                        save_in_input_dir=False, cell_type_abv=cell_type_abv)
+                        save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
 
 
-def inpaint():
+def inpaint(model_name, input_folder, output_dir, prompt):
     '''Inpaints all images in the input folder'''
 
     # Load model
-    # model_name = '10000MultiCellAllSampRegPerson.ckpt'
-    model_name = '10000MultiCellPersonHandPick.ckpt'
-
     my_load_model(model_name)
-
-    # Input folder
-    input_folder = '640_masks'
 
     # Correct order of cell types
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
-    inpaint_multiple(cell_type_abvs, input_folder)
+    inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt)
 
 
-inpaint()
+# Parse program arguments
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Inpainting for cell images')
+    parser.add_argument('--model_name', type=str,
+                        help='Model name to use for inpainting')
+    parser.add_argument('--input_folder', type=str,
+                        help='Folder containing images to inpaint')
+    parser.add_argument('--output_dir', type=str,
+                        help='Folder to save inpainted images, in the outputs directory')
+    parser.add_argument('--prompt', type=str, default="",
+                        help='Prompt to use for inpainting')
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    inpaint(model_name=args.model_name,
+            input_folder=args.input_folder,
+            output_dir=args.output_dir,
+            prompt=args.prompt)
+
+
+main()
