@@ -208,7 +208,13 @@ def my_load_model(model_name):
 
 # Variar a:
 # Denoising strength, steps, mask blur, cfg scale
-def call_inpainting_params(prompt, img_name, img_mask_name):
+def call_inpainting_params(prompt, img_name, img_mask_name, isAnaDataset=True):
+
+    height = 320
+    width = 320
+    if isAnaDataset:
+        height, width = 640, 640
+
     mode = 1
     prompt = prompt
     negative_prompt = ''
@@ -235,8 +241,6 @@ def call_inpainting_params(prompt, img_name, img_mask_name):
     seed_resize_from_h = 0
     seed_resize_from_w = 0
     seed_enable_extras = False
-    height = 320
-    width = 320
     resize_mode = 0
     inpaint_full_res = True
     inpaint_full_res_padding = 32
@@ -261,13 +265,14 @@ def prompt_creator(cell_type):
     return prompt
 
 
-def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt):
+def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_mask_size):
     '''
     Given a cell type abbreviation, this function will inpaint all images in the folder
     Will create one inpainted image, per cell type abbreviation, per image in the folder
     '''
 
     input_dir = os.path.join('indir', input_folder)
+    isAnaDataset = prompt == ""
 
     # Parse images and masks
     masks = sorted(glob.glob(os.path.join(input_dir, "*_mask.jpeg")))
@@ -280,13 +285,21 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt):
 
         # If prompt is empty, create prompt in "@cell_type cell" format
         # Create inpainted image, for each cell type for each image
-        if prompt == "":
+        if isAnaDataset:
             # Create inpainted image, for each cell type for each image
             for cell_type_abv in cell_type_abvs:
 
+                if control_mask_size:
+                    print("Entering control mask size")
+                    # Change mask name to add cell_type_abv to the name
+                    # These masks are stored in the resized_masks folder
+                    mask = mask.replace('.jpeg', f'_{cell_type_abv}0.jpeg')
+                    mask_path, mask_name = os.path.split(mask)
+                    mask = os.path.join(mask_path, 'resized_masks', mask_name)
+
                 prompt = prompt_creator(cell_type_abv)
                 images = call_inpainting_params(
-                    prompt, image_path, mask)
+                    prompt, image_path, mask, isAnaDataset)
 
                 # Saving for one batch different images
                 save_images(images=images, img_path=image_path,
@@ -301,7 +314,7 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt):
                         save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
 
 
-def inpaint(model_name, input_folder, output_dir, prompt):
+def inpaint(model_name, input_folder, output_dir, prompt, control_mask_size):
     '''Inpaints all images in the input folder'''
 
     # Load model
@@ -309,7 +322,8 @@ def inpaint(model_name, input_folder, output_dir, prompt):
 
     # Correct order of cell types
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
-    inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt)
+    inpaint_multiple(cell_type_abvs, input_folder,
+                     output_dir, prompt, control_mask_size)
 
 
 # Parse program arguments
@@ -324,7 +338,18 @@ def parse_args():
                         help='Folder to save inpainted images, in the outputs directory')
     parser.add_argument('--prompt', type=str, default="",
                         help='Prompt to use for inpainting')
+    parser.add_argument('--control_mask_size', type=bool, default=False,
+                        help='If true, will use the mask size to control the size of the inpainted image')
     return parser.parse_args()
+
+
+def test():
+    print("Testing")
+    inpaint(model_name='',
+            input_folder='640_masks',
+            output_dir='640MasksResized',
+            prompt="",
+            control_mask_size=True)
 
 
 def main():
@@ -332,7 +357,9 @@ def main():
     inpaint(model_name=args.model_name,
             input_folder=args.input_folder,
             output_dir=args.output_dir,
-            prompt=args.prompt)
+            prompt=args.prompt,
+            control_mask_size=args.control_mask_size)
 
 
 main()
+# test()
