@@ -290,7 +290,6 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
             for cell_type_abv in cell_type_abvs:
 
                 if control_mask_size:
-                    print("Entering control mask size")
                     # Change mask name to add cell_type_abv to the name
                     # These masks are stored in the resized_masks folder
                     mask = mask.replace('.jpeg', f'_{cell_type_abv}0.jpeg')
@@ -364,15 +363,15 @@ def vlad_args():
 
 def ana_args():
     model_name = '10000MultiCellPersonHandPick.ckpt'
-    input_folder = '640_OneCell'
-    output_dir = '640MasksResized'
+    input_folder = 'Ana_640_patches_w_removed'
+    output_dir = 'Ana_640_patches_w_removed_oneCell'
     prompt = ""
     control_mask_size = True
     return model_name, input_folder, output_dir, prompt, control_mask_size
 
 
 def main():
-    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args()
+    model_name, input_folder, output_dir, prompt, control_mask_size = ana_args()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=automatic_inpaint_10000CellAllTypes_HandPick_vlad_w_masks_CFG4
-#SBATCH --output=output_Ascus_Vlad.log
+#SBATCH --job-name=Ana_640_patches_w_removed_oneCell_10000MultiCellPersonHandPick
+#SBATCH --output=output_Ana_640_patches_w_removed.log
 #SBATCH --mem=64G
 #SBATCH --time=23:59:00
 #SBATCH --cpus-per-task=24
