@@ -352,14 +352,33 @@ def test():
             control_mask_size=True)
 
 
-def main(control_mask_size):
-    args = parse_args()
-    inpaint(model_name=args.model_name,
-            input_folder=args.input_folder,
-            output_dir=args.output_dir,
-            prompt=args.prompt,
-            control_mask_size=True)
+def vlad_args():
+    # Ainda não tem a opçao de controlar o tamanho da mascara
+    model_name = '2022-12-20T11-43-15_ASCUS_1_training_images_10000_max_training_steps_ASCUS_token_cell_class_word.ckpt'
+    input_folder = 'vlad_w_masks'
+    output_dir = 'vlad_w_masks_ASCUS_cell'
+    prompt = "ASCUS cell"
+    control_mask_size = False
+    return model_name, input_folder, output_dir, prompt, control_mask_size
 
 
-main(control_mask_size=True)
+def ana_args():
+    model_name = '10000MultiCellPersonHandPick.ckpt'
+    input_folder = '640_OneCell'
+    output_dir = '640MasksResized'
+    prompt = ""
+    control_mask_size = True
+    return model_name, input_folder, output_dir, prompt, control_mask_size
+
+
+def main():
+    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args()
+    inpaint(model_name=model_name,
+            input_folder=input_folder,
+            output_dir=output_dir,
+            prompt=prompt,
+            control_mask_size=control_mask_size)
+
+
+main()
 # test()
