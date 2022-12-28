@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=Ana_640_patches_w_removed_oneCell_10000MultiCellPersonHandPick
+#SBATCH --job-name=Ana_640_patches_w_removed_lama_oneCell_10000MultiCellPersonHandPick
 #SBATCH --output=output_Ana_640_patches_w_removed.log
 #SBATCH --mem=64G
 #SBATCH --time=23:59:00

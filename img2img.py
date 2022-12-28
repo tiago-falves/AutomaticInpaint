@@ -272,7 +272,7 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
     '''
 
     input_dir = os.path.join('indir', input_folder)
-    isAnaDataset = prompt == ""
+    is_multiple_model = prompt == ""
 
     # Parse images and masks
     masks = sorted(glob.glob(os.path.join(input_dir, "*_mask.jpeg")))
@@ -285,7 +285,7 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
 
         # If prompt is empty, create prompt in "@cell_type cell" format
         # Create inpainted image, for each cell type for each image
-        if isAnaDataset:
+        if is_multiple_model:
             # Create inpainted image, for each cell type for each image
             for cell_type_abv in cell_type_abvs:
 
@@ -298,7 +298,7 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
 
                 prompt = prompt_creator(cell_type_abv)
                 images = call_inpainting_params(
-                    prompt, image_path, mask, isAnaDataset)
+                    prompt, image_path, mask, is_multiple_model)
 
                 # Saving for one batch different images
                 save_images(images=images, img_path=image_path,
