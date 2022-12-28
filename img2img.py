@@ -358,6 +358,16 @@ def vlad_args():
     output_dir = 'vlad_w_masks_ASCUS_cell'
     prompt = "ASCUS cell"
     control_mask_size = False
+    return model_name, input_folder, output_dir, prompt, control_mask_size 
+
+
+def vlad_args_multiple():
+    # Ainda não tem a opçao de controlar o tamanho da mascara
+    model_name = '6000MultiCellAllCellsHandVLAD.ckpt'
+    input_folder = 'vlad_w_masks'
+    output_dir = 'vlad_w_masks'
+    prompt = ""
+    control_mask_size = False
     return model_name, input_folder, output_dir, prompt, control_mask_size
 
 
@@ -371,7 +381,7 @@ def ana_args():
 
 
 def main():
-    model_name, input_folder, output_dir, prompt, control_mask_size = ana_args()
+    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,
