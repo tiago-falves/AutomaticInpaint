@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=VLAD
-#SBATCH --output=vlad.log
+#SBATCH --job-name=VLAD_resized
+#SBATCH --output=output_vlad_resized.log
 #SBATCH --mem=32G
 #SBATCH --time=1-23:59:00
 #SBATCH --cpus-per-task=12
