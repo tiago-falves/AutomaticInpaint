@@ -368,10 +368,10 @@ def inpaint(model_name, input_folder, output_dir, prompt, control_mask_size):
     # Add or remove crnm
     # cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil']
-    # inpaint_multiple(cell_type_abvs, input_folder,
-    #                  output_dir, prompt, control_mask_size)
-    inpaint_Scc(cell_type_abvs, input_folder,
+    inpaint_multiple(cell_type_abvs, input_folder,
                      output_dir, prompt, control_mask_size)
+    # inpaint_Scc(cell_type_abvs, input_folder,
+    #                  output_dir, prompt, control_mask_size)
     
 
 
@@ -446,7 +446,7 @@ def ana():
             prompt=prompt,
             control_mask_size=control_mask_size)
 def vlad():
-    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_not_resized()
+    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_resized()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,
