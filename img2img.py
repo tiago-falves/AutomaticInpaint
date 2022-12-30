@@ -288,17 +288,19 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
         if is_multiple_model:
             # Create inpainted image, for each cell type for each image
             for cell_type_abv in cell_type_abvs:
+                resized_mask = mask[:]
 
                 if control_mask_size:
                     # Change mask name to add cell_type_abv to the name
                     # These masks are stored in the resized_masks folder
-                    mask = mask.replace('.jpeg', f'_{cell_type_abv}0.jpeg')
-                    mask_path, mask_name = os.path.split(mask)
-                    mask = os.path.join(mask_path, 'resized_masks', mask_name)
+                    resized_mask = resized_mask.replace('.jpeg', f'_{cell_type_abv}0.jpeg')
+                    mask_path, mask_name = os.path.split(resized_mask)
+                    resized_mask = os.path.join(mask_path, 'resized_masks', mask_name)
 
+                
                 prompt = prompt_creator(cell_type_abv)
                 images = call_inpainting_params(
-                    prompt, image_path, mask, is_multiple_model)
+                    prompt, image_path, resized_mask, is_multiple_model)
 
                 # Saving for one batch different images
                 save_images(images=images, img_path=image_path,
