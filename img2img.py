@@ -264,6 +264,13 @@ def prompt_creator(cell_type):
     prompt = '@' + cell_type + ' cell'
     return prompt
 
+def prompt_creator_scc(cell_type):
+
+    prompt = '@' + cell_type + ' cell'
+    if cell_type=='hsil' or 'crnm':
+        prompt = '@hsilScc cell' 
+
+    return prompt
 
 def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_mask_size):
     '''
@@ -298,7 +305,7 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
                     resized_mask = os.path.join(mask_path, 'resized_masks', mask_name)
 
                 
-                prompt = prompt_creator(cell_type_abv)
+                prompt = prompt_creator_scc(cell_type_abv)
                 images = call_inpainting_params(
                     prompt, image_path, resized_mask, is_multiple_model)
 
@@ -322,7 +329,9 @@ def inpaint(model_name, input_folder, output_dir, prompt, control_mask_size):
     my_load_model(model_name)
 
     # Correct order of cell types
-    cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
+    # Add or remove crnm
+    # cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
+    cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil']
     inpaint_multiple(cell_type_abvs, input_folder,
                      output_dir, prompt, control_mask_size)
 
@@ -363,7 +372,7 @@ def vlad_args():
     return model_name, input_folder, output_dir, prompt, control_mask_size 
 
 
-def vlad_args_multiple():
+def vlad_args_multiple_resized():
     # Ainda não tem a opçao de controlar o tamanho da mascara
     model_name = '6000MultiCellAllCellsHandVLAD.ckpt'
     input_folder = 'vlad_w_masks_resized'
@@ -390,7 +399,7 @@ def ana():
             prompt=prompt,
             control_mask_size=control_mask_size)
 def vlad():
-    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple()
+    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_resized()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,
