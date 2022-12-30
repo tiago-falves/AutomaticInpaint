@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=Ana_640_patches_w_removed_lama_oneCell_10000MultiCellPersonHandPick
-#SBATCH --output=output_Ana_640_patches_w_removed.log
+#SBATCH --job-name=VLAD
+#SBATCH --output=vlad.log
 #SBATCH --mem=32G
 #SBATCH --time=1-23:59:00
 #SBATCH --cpus-per-task=12

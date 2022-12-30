@@ -380,8 +380,8 @@ def ana_args():
     return model_name, input_folder, output_dir, prompt, control_mask_size
 
 
-def main():
-    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple()
+def ana():
+    model_name, input_folder, output_dir, prompt, control_mask_size = ana_args()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,
@@ -389,5 +389,5 @@ def main():
             control_mask_size=control_mask_size)
 
 
-main()
+ana()
 # test()
