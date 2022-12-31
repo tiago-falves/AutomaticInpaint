@@ -368,10 +368,10 @@ def inpaint(model_name, input_folder, output_dir, prompt, control_mask_size):
     # Add or remove crnm
     # cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil']
-    inpaint_multiple(cell_type_abvs, input_folder,
-                     output_dir, prompt, control_mask_size)
-    # inpaint_Scc(cell_type_abvs, input_folder,
+    # inpaint_multiple(cell_type_abvs, input_folder,
     #                  output_dir, prompt, control_mask_size)
+    inpaint_Scc(cell_type_abvs, input_folder,
+                     output_dir, prompt, control_mask_size)
     
 
 
