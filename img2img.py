@@ -446,7 +446,7 @@ def ana():
             prompt=prompt,
             control_mask_size=control_mask_size)
 def vlad():
-    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_resized()
+    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_not_resized()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,
