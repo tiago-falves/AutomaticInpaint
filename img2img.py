@@ -304,14 +304,14 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
                     mask_path, mask_name = os.path.split(resized_mask)
                     resized_mask = os.path.join(mask_path, 'resized_masks', mask_name)
 
-                
-                prompt = prompt_creator_scc(cell_type_abv)
-                images = call_inpainting_params(
-                    prompt, image_path, resized_mask, is_multiple_model)
+                print(f"Processing {image_path} and {resized_mask}")
+                # prompt = prompt_creator_scc(cell_type_abv)
+                # images = call_inpainting_params(
+                #     prompt, image_path, resized_mask, is_multiple_model)
 
-                # Saving for one batch different images
-                save_images(images=images, img_path=image_path,
-                            save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
+                # # Saving for one batch different images
+                # save_images(images=images, img_path=image_path,
+                #             save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
         else:
             images = call_inpainting_params(prompt, image_path, mask)
             # Separate prompt by spaces
@@ -346,6 +346,7 @@ def inpaint_Scc(cell_type_abvs, input_folder, output_dir, prompt, control_mask_s
             resized_mask = resized_mask.replace('.jpeg', f'_hsil0.jpeg')
             mask_path, mask_name = os.path.split(resized_mask)
             resized_mask = os.path.join(mask_path, 'resized_masks', mask_name)
+            
 
         
         prompt = '@hsilScc cell' 
@@ -362,16 +363,16 @@ def inpaint(model_name, input_folder, output_dir, prompt, control_mask_size):
     '''Inpaints all images in the input folder'''
 
     # Load model
-    my_load_model(model_name)
+    # my_load_model(model_name)
 
     # Correct order of cell types
     # Add or remove crnm
     # cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil', 'crnm']
     cell_type_abvs = ['ascus', 'asch', 'lsil', 'hsil']
-    # inpaint_multiple(cell_type_abvs, input_folder,
-    #                  output_dir, prompt, control_mask_size)
-    inpaint_Scc(cell_type_abvs, input_folder,
+    inpaint_multiple(cell_type_abvs, input_folder,
                      output_dir, prompt, control_mask_size)
+    # inpaint_Scc(cell_type_abvs, input_folder,
+    #                  output_dir, prompt, control_mask_size)
     
 
 
@@ -446,7 +447,7 @@ def ana():
             prompt=prompt,
             control_mask_size=control_mask_size)
 def vlad():
-    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_not_resized()
+    model_name, input_folder, output_dir, prompt, control_mask_size = vlad_args_multiple_resized()
     inpaint(model_name=model_name,
             input_folder=input_folder,
             output_dir=output_dir,
