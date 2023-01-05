@@ -304,14 +304,13 @@ def inpaint_multiple(cell_type_abvs, input_folder, output_dir, prompt, control_m
                     mask_path, mask_name = os.path.split(resized_mask)
                     resized_mask = os.path.join(mask_path, 'resized_masks', mask_name)
 
-                print(f"Processing {image_path} and {resized_mask}")
-                # prompt = prompt_creator_scc(cell_type_abv)
-                # images = call_inpainting_params(
-                #     prompt, image_path, resized_mask, is_multiple_model)
+                prompt = prompt_creator_scc(cell_type_abv)
+                images = call_inpainting_params(
+                    prompt, image_path, resized_mask, is_multiple_model)
 
-                # # Saving for one batch different images
-                # save_images(images=images, img_path=image_path,
-                #             save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
+                # Saving for one batch different images
+                save_images(images=images, img_path=image_path,
+                            save_in_input_dir=False, cell_type_abv=cell_type_abv, output_dir=output_dir)
         else:
             images = call_inpainting_params(prompt, image_path, mask)
             # Separate prompt by spaces
@@ -363,7 +362,7 @@ def inpaint(model_name, input_folder, output_dir, prompt, control_mask_size):
     '''Inpaints all images in the input folder'''
 
     # Load model
-    # my_load_model(model_name)
+    my_load_model(model_name)
 
     # Correct order of cell types
     # Add or remove crnm
@@ -432,7 +431,7 @@ def vlad_args_multiple_not_resized():
 
 def ana_args():
     model_name = '10000MultiCellPersonHandPick.ckpt'
-    input_folder = 'Ana_640_patches_w_removed'
+    input_folder = 'Ana_640_patches_without_removed'
     output_dir = 'Ana_640_patches_w_removed_oneCell'
     prompt = ""
     control_mask_size = True
@@ -455,5 +454,7 @@ def vlad():
             control_mask_size=control_mask_size)
 
 
-vlad()
+# vlad()
+
+ana()
 # test()
